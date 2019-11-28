@@ -6,9 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import com.marianhello.bgloc.Config;
-import com.marianhello.logging.LoggerManager;
 
 /**
  * Created by finch on 7.11.2017.

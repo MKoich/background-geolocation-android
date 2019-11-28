@@ -1,18 +1,12 @@
 package com.marianhello.bgloc.data.provider;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.UriMatcher;
+import android.content.*;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-
 import com.marianhello.bgloc.ResourceResolver;
 import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 import com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper;

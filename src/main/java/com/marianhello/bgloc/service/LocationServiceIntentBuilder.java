@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -36,19 +37,21 @@ import java.lang.annotation.RetentionPolicy;
         CommandId.START_FOREGROUND,
         CommandId.CONFIGURE,
         CommandId.REGISTER_HEADLESS_TASK,
-        CommandId.START_HEADLESS_TASK
+        CommandId.START_HEADLESS_TASK,
+        CommandId.STOP_HEADLESS_TASK
 })
 @Retention(RetentionPolicy.SOURCE)
 @interface CommandId {
     int INVALID = -1;
     int START = 0;
-    int STOP = 1;
-    int STOP_FOREGROUND = 2;
-    int START_FOREGROUND = 3;
-    int CONFIGURE = 4;
-    int REGISTER_HEADLESS_TASK = 5;
-    int START_HEADLESS_TASK = 6;
-    int START_FOREGROUND_SERVICE = 7;
+    int START_FOREGROUND_SERVICE = 1;
+    int STOP = 2;
+    int STOP_FOREGROUND = 3;
+    int START_FOREGROUND = 4;
+    int CONFIGURE = 5;
+    int REGISTER_HEADLESS_TASK = 6;
+    int START_HEADLESS_TASK = 7;
+    int STOP_HEADLESS_TASK = 8;
 }
 
 public class LocationServiceIntentBuilder {
@@ -68,22 +71,26 @@ public class LocationServiceIntentBuilder {
         private static final int ARGUMENT_TYPE_STRING = 1;
         private static final int ARGUMENT_TYPE_PARCELABLE = 2;
 
-        private final @CommandId int mCommandId;
+        private final @CommandId
+        int mCommandId;
         private Parcelable mParcelableArg;
         private String mStringArg;
+        private int mArgType = 0;
 
         public Command(int id) {
             this.mCommandId = id;
         }
 
         public Command(int id, String argument) {
-            this.mCommandId = id;
-            this.mStringArg = argument;
+            mCommandId = id;
+            mStringArg = argument;
+            mArgType = ARGUMENT_TYPE_STRING;
         }
 
         public Command(int id, Parcelable argument) {
-            this.mCommandId = id;
-            this.mParcelableArg = argument;
+            mCommandId = id;
+            mParcelableArg = argument;
+            mArgType = ARGUMENT_TYPE_PARCELABLE;
         }
 
         public int getId() {
@@ -91,7 +98,14 @@ public class LocationServiceIntentBuilder {
         }
 
         public Object getArgument() {
-            return mParcelableArg;
+            switch (mArgType) {
+                case ARGUMENT_TYPE_STRING:
+                    return mStringArg;
+                case ARGUMENT_TYPE_PARCELABLE:
+                    return mParcelableArg;
+                default:
+                    return null;
+            }
         }
 
         public Bundle toBundle() {
@@ -116,7 +130,7 @@ public class LocationServiceIntentBuilder {
             int argumentType = bundle.getInt(KEY_COMMAND_ARGUMENT_TYPE);
 
             if (argumentType == ARGUMENT_TYPE_STRING) {
-                return new Command(commandId, bundle.getString(KEY_COMMAND_ARGUMENT_TYPE));
+                return new Command(commandId, bundle.getString(KEY_COMMAND_ARGUMENT));
             } else if (argumentType == ARGUMENT_TYPE_PARCELABLE) {
                 // Important: don't remove Parcelable cast
                 // required for Java 1.8 compatibility

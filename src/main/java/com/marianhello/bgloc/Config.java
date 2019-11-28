@@ -13,12 +13,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-
 import com.marianhello.bgloc.data.AbstractLocationTemplate;
 import com.marianhello.bgloc.data.LocationTemplate;
 import com.marianhello.bgloc.data.LocationTemplateFactory;
 import com.marianhello.utils.CloneHelper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

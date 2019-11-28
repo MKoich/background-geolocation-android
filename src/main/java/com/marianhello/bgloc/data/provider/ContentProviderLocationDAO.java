@@ -7,19 +7,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
-
 import com.marianhello.bgloc.ResourceResolver;
 import com.marianhello.bgloc.data.BackgroundLocation;
 import com.marianhello.bgloc.data.LocationDAO;
 import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract;
 import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 import com.marianhello.logging.LoggerManager;
+import ru.andremoniy.sqlbuilder.SqlExpression;
+import ru.andremoniy.sqlbuilder.SqlSelectStatement;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import ru.andremoniy.sqlbuilder.SqlExpression;
-import ru.andremoniy.sqlbuilder.SqlSelectStatement;
 
 public class ContentProviderLocationDAO implements LocationDAO {
     private org.slf4j.Logger logger;

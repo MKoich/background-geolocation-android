@@ -1,9 +1,7 @@
 package com.marianhello.bgloc.data;
 
 import android.content.Context;
-
 import com.marianhello.bgloc.data.provider.ContentProviderLocationDAO;
-import com.marianhello.bgloc.data.sqlite.SQLiteLocationDAO;
 import com.marianhello.bgloc.data.sqlite.SQLiteConfigurationDAO;
 
 public abstract class DAOFactory {

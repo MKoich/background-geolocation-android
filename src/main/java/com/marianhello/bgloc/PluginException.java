@@ -2,9 +2,6 @@ package com.marianhello.bgloc;
 
 import android.os.Bundle;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class PluginException extends Exception {
     public static final int PERMISSION_DENIED_ERROR = 1000;
     public static final int SETTINGS_ERROR = 1001;

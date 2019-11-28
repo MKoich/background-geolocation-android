@@ -3,7 +3,6 @@ package com.marianhello.bgloc.service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
 import com.marianhello.bgloc.Config;
 
 public class LocationServiceProxy implements LocationService, LocationServiceInfo {
@@ -31,17 +30,29 @@ public class LocationServiceProxy implements LocationService, LocationServiceInf
     }
 
     @Override
-    public void registerHeadlessTask(String jsFunction) {
+    public void registerHeadlessTask(String taskRunnerClass) {
         Intent intent = mIntentBuilder
-                .setCommand(CommandId.REGISTER_HEADLESS_TASK, jsFunction)
+                .setCommand(CommandId.REGISTER_HEADLESS_TASK, taskRunnerClass)
                 .build();
         executeIntentCommand(intent);
     }
 
     @Override
     public void startHeadlessTask() {
+        if (!isStarted()) { return; }
+
         Intent intent = mIntentBuilder
                 .setCommand(CommandId.START_HEADLESS_TASK)
+                .build();
+        executeIntentCommand(intent);
+    }
+
+    @Override
+    public void stopHeadlessTask() {
+        if (!isStarted()) { return; }
+
+        Intent intent = mIntentBuilder
+                .setCommand(CommandId.STOP_HEADLESS_TASK)
                 .build();
         executeIntentCommand(intent);
     }
@@ -71,6 +82,8 @@ public class LocationServiceProxy implements LocationService, LocationServiceInf
 
     @Override
     public void stop() {
+        if (!isStarted()) { return; }
+
         Intent intent = mIntentBuilder.setCommand(CommandId.STOP).build();
         executeIntentCommand(intent);
     }

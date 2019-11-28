@@ -5,14 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import org.json.JSONObject;
-import org.json.JSONException;
-
 import com.marianhello.bgloc.Config;
 import com.marianhello.bgloc.data.ConfigurationDAO;
 import com.marianhello.bgloc.data.LocationTemplateFactory;
 import com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SQLiteConfigurationDAO implements ConfigurationDAO {
   private static final String TAG = SQLiteConfigurationDAO.class.getName();

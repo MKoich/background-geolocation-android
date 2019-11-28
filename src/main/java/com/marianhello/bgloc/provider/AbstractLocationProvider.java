@@ -17,7 +17,6 @@ import android.location.Location;
 import android.media.AudioManager;
 import android.provider.Settings;
 import android.widget.Toast;
-
 import com.google.android.gms.location.DetectedActivity;
 import com.marianhello.bgloc.Config;
 import com.marianhello.bgloc.PluginException;

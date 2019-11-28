@@ -2,10 +2,7 @@ package com.marianhello.bgloc.data.sqlite;
 
 import android.provider.BaseColumns;
 
-import static com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper.COMMA_SEP;
-import static com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper.INTEGER_TYPE;
-import static com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper.REAL_TYPE;
-import static com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper.TEXT_TYPE;
+import static com.marianhello.bgloc.data.sqlite.SQLiteOpenHelper.*;
 
 public final class SQLiteConfigurationContract {
     // To prevent someone from accidentally instantiating the contract class,

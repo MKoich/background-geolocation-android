@@ -1,23 +1,15 @@
 package com.marianhello.bgloc;
 
 import android.os.Build;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-
-import java.net.URL;
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class HttpPostService {
     public static final int BUFFER_SIZE = 1024;

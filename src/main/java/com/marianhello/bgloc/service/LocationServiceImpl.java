@@ -13,56 +13,28 @@ import android.accounts.Account;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Binder;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
 import android.os.Process;
+import android.os.*;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-
-import com.marianhello.bgloc.Config;
-import com.marianhello.bgloc.ConnectivityListener;
-import com.marianhello.bgloc.NotificationHelper;
-import com.marianhello.bgloc.PluginException;
-import com.marianhello.bgloc.PostLocationTask;
-import com.marianhello.bgloc.ResourceResolver;
-import com.marianhello.bgloc.data.BackgroundActivity;
-import com.marianhello.bgloc.data.BackgroundLocation;
-import com.marianhello.bgloc.data.ConfigurationDAO;
-import com.marianhello.bgloc.data.DAOFactory;
-import com.marianhello.bgloc.data.LocationDAO;
-import com.marianhello.bgloc.headless.ActivityTask;
-import com.marianhello.bgloc.headless.HeadlessTaskRunner;
-import com.marianhello.bgloc.headless.LocationTask;
-import com.marianhello.bgloc.headless.StationaryTask;
-import com.marianhello.bgloc.headless.Task;
+import com.marianhello.bgloc.*;
+import com.marianhello.bgloc.data.*;
+import com.marianhello.bgloc.headless.*;
 import com.marianhello.bgloc.provider.LocationProvider;
 import com.marianhello.bgloc.provider.LocationProviderFactory;
 import com.marianhello.bgloc.provider.ProviderDelegate;
 import com.marianhello.bgloc.sync.AccountHelper;
+import com.marianhello.bgloc.sync.NotificationHelper;
 import com.marianhello.bgloc.sync.SyncService;
 import com.marianhello.logging.LoggerManager;
 import com.marianhello.logging.UncaughtExceptionLogger;
-
 import org.chromium.content.browser.ThreadUtils;
 import org.json.JSONException;
 
-import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.containsCommand;
-import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.containsMessage;
-import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.getCommand;
-import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.getMessage;
+import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.*;
 
 public class LocationServiceImpl extends Service implements ProviderDelegate, LocationService {
 
@@ -115,8 +87,8 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
     private ServiceHandler mServiceHandler;
     private LocationDAO mLocationDAO;
     private PostLocationTask mPostLocationTask;
-    private String mHeadlessFunction;
-    private HeadlessTaskRunner mHeadlessTaskRunner;
+    private String mHeadlessTaskRunnerClass;
+    private TaskRunner mHeadlessTaskRunner;
 
     private long mServiceId = -1;
     private static boolean sIsRunning = false;
@@ -323,6 +295,9 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 case CommandId.START_HEADLESS_TASK:
                     startHeadlessTask();
                     break;
+                case CommandId.STOP_HEADLESS_TASK:
+                    stopHeadlessTask();
+                    break;
             }
         } catch (Exception e) {
             logger.error("processCommand: exception", e);
@@ -483,17 +458,27 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
     }
 
     @Override
-    public synchronized void registerHeadlessTask(String jsFunction) {
+    public synchronized void registerHeadlessTask(String taskRunnerClass) {
         logger.debug("Registering headless task");
-        mHeadlessFunction = jsFunction;
+        mHeadlessTaskRunnerClass = taskRunnerClass;
     }
 
     @Override
-    public synchronized  void startHeadlessTask() {
-        if (mHeadlessFunction != null) {
-            mHeadlessTaskRunner = new HeadlessTaskRunner(this);
-            mHeadlessTaskRunner.setFunction(mHeadlessFunction);
+    public synchronized void startHeadlessTask() {
+        if (mHeadlessTaskRunnerClass != null) {
+            TaskRunnerFactory trf = new TaskRunnerFactory();
+            try {
+                mHeadlessTaskRunner = trf.getTaskRunner(mHeadlessTaskRunnerClass);
+                ((AbstractTaskRunner) mHeadlessTaskRunner).setContext(this);
+            } catch (Exception e) {
+                logger.error("Headless task start failed: {}", e.getMessage());
+            }
         }
+    }
+
+    @Override
+    public synchronized void stopHeadlessTask() {
+        mHeadlessTaskRunner = null;
     }
 
     @Override

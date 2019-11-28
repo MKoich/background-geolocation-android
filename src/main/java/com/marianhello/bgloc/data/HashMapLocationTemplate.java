@@ -1,7 +1,6 @@
 package com.marianhello.bgloc.data;
 
 import com.marianhello.utils.CloneHelper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -2,9 +2,7 @@ package com.marianhello.bgloc.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.android.gms.location.DetectedActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

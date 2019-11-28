@@ -1,11 +1,7 @@
 package com.marianhello.bgloc.data;
 
-import java.util.Date;
-import java.util.Collection;
-
-import org.json.JSONException;
-
 import com.marianhello.bgloc.Config;
+import org.json.JSONException;
 
 public interface ConfigurationDAO {
     boolean persistConfiguration(Config config) throws NullPointerException;

@@ -17,27 +17,20 @@ import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-
 import com.github.jparkie.promise.Promise;
 import com.intentfilter.androidpermissions.PermissionManager;
-import com.marianhello.bgloc.data.BackgroundActivity;
-import com.marianhello.bgloc.data.BackgroundLocation;
-import com.marianhello.bgloc.data.ConfigurationDAO;
-import com.marianhello.bgloc.data.DAOFactory;
-import com.marianhello.bgloc.data.LocationDAO;
+import com.marianhello.bgloc.data.*;
 import com.marianhello.bgloc.provider.LocationProvider;
 import com.marianhello.bgloc.service.LocationService;
 import com.marianhello.bgloc.service.LocationServiceImpl;
-import com.marianhello.bgloc.service.LocationServiceInfo;
 import com.marianhello.bgloc.service.LocationServiceProxy;
-import com.marianhello.bgloc.service.LocationTransform;
 import com.marianhello.bgloc.sync.AccountHelper;
+import com.marianhello.bgloc.sync.NotificationHelper;
 import com.marianhello.bgloc.sync.SyncService;
 import com.marianhello.logging.DBLogReader;
 import com.marianhello.logging.LogEntry;
 import com.marianhello.logging.LoggerManager;
 import com.marianhello.logging.UncaughtExceptionLogger;
-
 import org.json.JSONException;
 import org.slf4j.event.Level;
 
@@ -252,6 +245,7 @@ public class BackgroundGeolocationFacade {
 
     public void resume() {
         mIsPaused = false;
+        mService.stopHeadlessTask();
         if (!getConfig().getStartForeground()) {
             mService.stopForeground();
         }
@@ -428,9 +422,9 @@ public class BackgroundGeolocationFacade {
         }
     }
 
-    public void registerHeadlessTask(final String jsFunction) {
-        logger.info("Registering headless task");
-        mService.registerHeadlessTask(jsFunction);
+    public void registerHeadlessTask(final String taskRunnerClass) {
+        logger.info("Registering headless task: {}", taskRunnerClass);
+        mService.registerHeadlessTask(taskRunnerClass);
     }
 
     private void startBackgroundService() {

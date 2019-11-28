@@ -1,7 +1,6 @@
 package com.marianhello.bgloc.data;
 
 import com.marianhello.utils.Convert;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +8,6 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Created by finch on 9.12.2017.

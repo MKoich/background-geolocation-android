@@ -5,18 +5,14 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 import com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry;
+import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 
 import java.util.ArrayList;
 
 import static com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry.SQL_CREATE_CONFIG_TABLE;
 import static com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry.SQL_DROP_CONFIG_TABLE;
-import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.SQL_CREATE_LOCATION_TABLE;
-import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.SQL_CREATE_LOCATION_TABLE_BATCH_ID_IDX;
-import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.SQL_CREATE_LOCATION_TABLE_TIME_IDX;
-import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.SQL_DROP_LOCATION_TABLE;
+import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.*;
 
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     private static final String TAG = SQLiteOpenHelper.class.getName();
